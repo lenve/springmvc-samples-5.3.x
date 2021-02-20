@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="org.javaboy.fileupload" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="myInterceptor1"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="myInterceptor2"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+<!--    <mvc:resources mapping="/**" location="/"/>-->
+
+    <mvc:resources mapping="/javaboy/**" location="/static/"/>
+<!--    <mvc:resources mapping="/static/css/*" location="/static/css/"/>-->
+<!--    <mvc:resources mapping="/static/image/*" location="/static/image/"/>-->
+
+    <mvc:annotation-driven validator="validatorFactoryBean">
+<!--        <mvc:message-converters>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="fastJsonConfig">
+                    <bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
+                        <property name="dateFormat" value="yyyy-MM-dd"/>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>-->
+    </mvc:annotation-driven>
+   <!-- <bean class="com.google.gson.GsonBuilder" id="gsonBuilder">
+        <property name="dateFormat" value="yyyy-MM-dd"/>
+    </bean>
+    <mvc:annotation-driven validator="validatorFactoryBean">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.GsonHttpMessageConverter">
+                <property name="gson">
+                    <bean class="com.google.gson.Gson" factory-bean="gsonBuilder" factory-method="create"/>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>-->
+<!--    <mvc:annotation-driven validator="validatorFactoryBean">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" id="httpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg name="pattern" value="yyyy-MM-dd"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>-->
+
+<!--    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        &lt;!&ndash;默认的编码&ndash;&gt;
+        <property name="defaultEncoding" value="UTF-8"/>
+        &lt;!&ndash;上传的总文件大小&ndash;&gt;
+        <property name="maxUploadSize" value="1048576"/>
+        &lt;!&ndash;上传的单个文件大小&ndash;&gt;
+        <property name="maxUploadSizePerFile" value="1048576"/>
+        &lt;!&ndash;内存中最大的数据量，超过这个数据量，数据就要开始往硬盘中写了&ndash;&gt;
+        <property name="maxInMemorySize" value="4096"/>
+        &lt;!&ndash;临时目录，超过 maxInMemorySize 配置的大小后，数据开始往临时目录写，等全部上传完成后，再将数据合并到正式的文件上传目录&ndash;&gt;
+        <property name="uploadTempDir" value="file:///E:\\tmp"/>
+    </bean>-->
+
+    <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver" id="multipartResolver">
+    </bean>
+    <bean class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" id="validatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <property name="validationMessageSource" ref="reloadableResourceBundleMessageSource"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="reloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:MyMessage</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="300"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>

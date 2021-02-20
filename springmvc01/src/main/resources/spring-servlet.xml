@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--首先配置一个 MyController 的实例-->
+    <bean class="org.javaboy.springmvc01.controller.MyController" name="myController"/>
+    <bean class="org.javaboy.springmvc01.controller.MyController2" name="myController2"/>
+    <bean class="org.javaboy.springmvc01.controller.MyController3" name="myController3"/>
+    <context:component-scan base-package="org.javaboy.springmvc01" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--配置处理器映射器，将前端请求和后段的接口关联起来-->
+<!--    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" id="handlerMapping">
+        <property name="beanName" value="/hello"/>
+    </bean>-->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" id="handlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/hello">myController</prop>
+                <prop key="/hello2">myController2</prop>
+                <prop key="/hello3">myController3</prop>
+            </props>
+        </property>
+    </bean>
+    <!--处理器适配器-->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" id="handlerAdapter"/>
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" id="httpRequestHandlerAdapter"/>
+    <!--视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>
