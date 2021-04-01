@@ -11,6 +11,11 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring-servlet.xml</param-value>
         </init-param>
+<!--        <multipart-config>
+            <location>/tmp</location>
+            <max-file-size>1024</max-file-size>
+            <max-request-size>10240</max-request-size>
+        </multipart-config>-->
 <!--        <init-param>
             <param-name>detectAllViewResolvers</param-name>
             <param-value>false</param-value>
@@ -19,7 +24,6 @@
             <param-name>throwExceptionIfNoHandlerFound</param-name>
             <param-value>true</param-value>
         </init-param>-->
-        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>

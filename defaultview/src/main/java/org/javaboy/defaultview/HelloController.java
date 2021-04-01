@@ -1,8 +1,9 @@
-package org.javaboy.init;
+package org.javaboy.defaultview;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author 江南一点雨
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @Gitee https://gitee.com/lenve
  */
 @Controller
-public class HelloController3 {
+public class HelloController {
     @GetMapping("/01")
-    public String hello() {
-        return "01";
+    public void hello() {
+        int i = 1 / 0;
+        System.out.println("01");
     }
 }

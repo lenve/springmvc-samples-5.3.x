@@ -1,6 +1,5 @@
-package org.javaboy.init;
+package org.javaboy.param_resolver2;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @GitHub https://github.com/lenve
  * @Gitee https://gitee.com/lenve
  */
-@Controller
-public class HelloController3 {
-    @GetMapping("/01")
-    public String hello() {
-        return "01";
+@RestController
+public class UserController {
+    @GetMapping("/user")
+    public User getUserByUsername(String username) {
+        User user = new User();
+        user.setUsername(username);
+        user.setAddress("www.javaboy.org");
+        return user;
     }
 }
