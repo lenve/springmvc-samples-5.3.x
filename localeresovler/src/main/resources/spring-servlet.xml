@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="org.javaboy.locale"/>
+    <mvc:annotation-driven/>
+    <bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource">
+        <property name="basename" value="language"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <mvc:resources mapping="/**" location="/"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+                <property name="paramName" value="theme"/>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+                <property name="paramName" value="locale"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+<!--    <bean class="org.springframework.web.servlet.i18n.SessionLocaleResolver" id="localeResolver">-->
+<!--    </bean>-->
+    <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver"/>
+
+    <!--theme-->
+    <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+        <!--加载资源-->
+        <property name="basenamePrefix" value="theme."/>
+    </bean>
+    <!-- 【可选】 -->
+    <!-- 默认情况下，使用的是 FixedThemeResolver 来确定主题名字，默认名字为 theme -->
+    <!-- 可以根据实际情况配置为 SessionThemeResovler/CookieThemeResolver -->
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.SessionThemeResolver">
+        <!--默认主题文件的名字是 "xxxx"，如果不设置，名为 theme-->
+        <property name="defaultThemeName" value="blue"/>
+    </bean>
+</beans>
